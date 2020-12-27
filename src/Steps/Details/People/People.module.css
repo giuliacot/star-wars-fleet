@@ -1,0 +1,17 @@
+.wrapperCard {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  box-sizing: border-box;
+  display: grid;
+  flex: 33% 0 1;
+  width: 33%;
+}
+
+.detail {
+  font-size: 0.825rem;
+  word-break: break-all;
+  margin-bottom: 1rem;
+}

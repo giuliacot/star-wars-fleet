@@ -1,0 +1,21 @@
+:root {
+  --width: 1200px;
+  --mainbg: #3c2946;
+  --maincolor: #ffd571;
+  --secondcolor:  #56556e;
+  --hovercolor: #bbd196;
+
+  --cardcolor: #6e4b81;
+}
+
+body {
+  background-color: var(--mainbg);
+}
+
+.app {
+  max-width: var(--width);
+  height: 100vh;
+  color: var(--maincolor);
+  margin: 0 auto;
+  padding: 1rem;
+}

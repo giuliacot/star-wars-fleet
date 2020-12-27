@@ -1,0 +1,18 @@
+.wrapper {
+  background-color:var(--cardcolor);
+  border: var(--mainbg) 2px solid;
+  padding: 1rem;
+  border-radius: 4px;
+  color: var(--maincolor);
+  margin-bottom: 1rem;
+  transition: all 0.2s;
+}
+
+.wrapper:hover {
+  transform: scale(1.01);
+}
+
+.name {
+  font-size: 1.25rem;
+  margin: 0;
+}

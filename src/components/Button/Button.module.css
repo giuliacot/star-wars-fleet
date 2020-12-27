@@ -1,0 +1,15 @@
+.button {
+  padding: 0.825rem;
+  background-color: var(--maincolor);
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  font-size: 1rem;
+  border: 0;
+  border-radius: 4px;
+  color: var(--secondcolor);
+}
+
+.button:hover {
+  transition: all 0.2s;
+  background-color: var(--hovercolor);
+}
