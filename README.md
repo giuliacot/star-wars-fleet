@@ -1,6 +1,6 @@
 ## Star wars fleet
 
-Compose your fleet in 3 steps!
+Compose your fleet in 3 steps! Based on Create react app
 
 ### Run dev local
 
