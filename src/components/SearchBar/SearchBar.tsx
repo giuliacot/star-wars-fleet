@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { useFleetContext } from '../../Steps/fleetContext';
 
 import { Input } from '../Input/Input';
+import { useDataQuery } from './useDataQuery';
 
 type Props<T> = {
   label: string;
@@ -26,11 +27,11 @@ export function SearchBar<T>({
   const [value, setValue] = useState<string>(initialValue);
   const [possibleValues, setPossibleValues] = useState<T[]>([]);
 
-  const { isLoading, error, data, refetch } = useQuery(dataListName, () =>
-    fetch(`https://swapi.dev/api/${kind}/?search=${value}`).then((res) =>
-      res.json(),
-    ),
-  );
+  const { isLoading, error, data, refetch } = useDataQuery({
+    kind,
+    value,
+    dataListName,
+  });
 
   // Refetching base on the new input value
   useEffect(() => {
