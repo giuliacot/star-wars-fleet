@@ -6,6 +6,7 @@
   color: var(--maincolor);
   flex: 33% 0 1;
   padding: 1rem;
+  cursor: none;
 }
 
 .currentStep {
