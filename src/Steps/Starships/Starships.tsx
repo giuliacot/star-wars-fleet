@@ -21,6 +21,7 @@ export const Starships: FunctionComponent = () => {
   };
   return (
     <div>
+      <h2>Now choose yours starships!</h2>
       <form onSubmit={onSubmit}>
         <SearchBar
           label="Compose your fleet with starships"
