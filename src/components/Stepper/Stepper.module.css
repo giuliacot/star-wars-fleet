@@ -1,4 +1,14 @@
-.link {
-  text-decoration-color: var(--maincolor);
+.stepWrapper {
+  display: flex;
+}
+
+.step {
   color: var(--maincolor);
+  flex: 33% 0 1;
+  padding: 1rem;
+}
+
+.currentStep {
+  color: var(--mainbg);
+  background-color: var(--hovercolor);
 }

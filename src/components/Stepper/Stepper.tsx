@@ -1,25 +1,31 @@
 import React, { FunctionComponent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import style from './Stepper.module.css';
 
 export const Stepper: FunctionComponent = () => {
   return (
-    <ul>
-      <li>
-        <Link className={style.link} to="/details">
-          Fleet Details
-        </Link>
-      </li>
-      <li>
-        <Link className={style.link} to="/starships">
-          Fleet Starships
-        </Link>
-      </li>
-      <li>
-        <Link className={style.link} to="/generals">
-          Fleet Generals
-        </Link>
-      </li>
+    <ul className={style.stepWrapper}>
+      <NavLink
+        className={style.step}
+        to="/details"
+        activeClassName={style.currentStep}
+      >
+        Fleet Details
+      </NavLink>
+      <NavLink
+        className={style.step}
+        to="/starships"
+        activeClassName={style.currentStep}
+      >
+        Fleet Starships
+      </NavLink>
+      <NavLink
+        className={style.step}
+        to="/generals"
+        activeClassName={style.currentStep}
+      >
+        Fleet Generals
+      </NavLink>
     </ul>
   );
 };

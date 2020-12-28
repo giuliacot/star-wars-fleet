@@ -1,30 +1,32 @@
-import React, {
-  FunctionComponent,
-  ReactNode,
-  RefObject,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { People } from '../../Steps/Details/People/People';
 import { useFleetContext } from '../../Steps/fleetContext';
-import { People as SwapiPeople } from '../../types/swapi';
+
 import { Input } from '../Input/Input';
 
-type SearchBarProps = {
+type Props<T> = {
   label: string;
-  kind: 'people' | 'starships' | 'vehicles' | 'species' | 'planets' | 'films';
+  kind: 'people' | 'starships';
+  name: string;
+  set: (value: T) => void;
+  matchingCheck: (v1: T, choosen: string) => boolean;
+  initialValue: string;
 } & React.HTMLAttributes<HTMLInputElement | HTMLDataListElement>;
 
-export const SearchBar: FunctionComponent<SearchBarProps> = ({
+export function SearchBar<T>({
   label,
   kind,
-}) => {
-  const { updateFleet, fleet } = useFleetContext();
+  name,
+  set,
+  matchingCheck,
+  initialValue,
+}: Props<T>) {
+  const { fleet } = useFleetContext();
   const dataListName = label.trim().toLowerCase();
-  const [value, setValue] = useState(fleet.commander?.name || '');
-  const [possibleValues, setPossibleValues] = useState<SwapiPeople[]>([]);
-  const { isLoading, error, data, refetch } = useQuery('search', () =>
+  const [value, setValue] = useState<string>(initialValue);
+  const [possibleValues, setPossibleValues] = useState<T[]>([]);
+
+  const { isLoading, error, data, refetch } = useQuery(dataListName, () =>
     fetch(`https://swapi.dev/api/${kind}/?search=${value}`).then((res) =>
       res.json(),
     ),
@@ -35,12 +37,24 @@ export const SearchBar: FunctionComponent<SearchBarProps> = ({
     refetch();
   }, [value]);
 
-  // Set commander only when it is choosen one from the list
+  // Set datalist options to validate input
   useEffect(() => {
     if (data?.results) {
       setPossibleValues(data.results);
     }
   }, [data]);
+
+  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setValue(e.currentTarget.value);
+
+    const isPossibileValue = possibleValues.find((i) =>
+      matchingCheck(i, e.currentTarget.value),
+    );
+
+    if (isPossibileValue) {
+      set(isPossibileValue);
+    }
+  };
 
   if (error) throw error;
 
@@ -51,26 +65,8 @@ export const SearchBar: FunctionComponent<SearchBarProps> = ({
       <Input
         label={label}
         type="text"
-        onChange={(e: React.FormEvent<HTMLInputElement>) => {
-          setValue(e.currentTarget.value);
-
-          const commander = possibleValues.find(
-            (i: Record<string, string | string[]>) =>
-              i.name === e.currentTarget.value,
-          );
-
-          if (commander) {
-            updateFleet({
-              commander: {
-                name: commander.name,
-                gender: commander.gender,
-                birthYear: commander.birth_year,
-                species: commander.species,
-                homeworld: commander.homeworld,
-              },
-            });
-          }
-        }}
+        name={name}
+        onChange={onChange}
         list={dataListName}
         value={value || ''}
       />
@@ -86,4 +82,4 @@ export const SearchBar: FunctionComponent<SearchBarProps> = ({
       )}
     </div>
   );
-};
+}

@@ -6,6 +6,8 @@ import React from 'react';
 import { FleetData } from './Steps/fleetContext';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Stepper } from './components/Stepper/Stepper';
+import { Starships } from './Steps/Starships/Starships';
+import { Generals } from './Steps/Generals/Generals';
 
 function App() {
   const queryClient = new QueryClient();
@@ -28,8 +30,8 @@ function App() {
             <Stepper />
             <Switch>
               <Route path="/details" component={() => <Details />} />
-              <Route path="/starships" component={() => <div>Starships</div>} />
-              <Route path="/generals" component={() => <div>Generals</div>} />
+              <Route path="/starships" component={() => <Starships />} />
+              <Route path="/generals" component={() => <Generals />} />
             </Switch>
           </Router>
         </QueryClientProvider>

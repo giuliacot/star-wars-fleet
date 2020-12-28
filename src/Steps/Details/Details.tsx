@@ -5,6 +5,7 @@ import { Button } from '../../components/Button/Button';
 
 import { useFleetContext, FleetData } from '../fleetContext';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
+import { People as SwapiPeople } from '../../types/swapi';
 import { People } from './People/People';
 import { useHistory } from 'react-router-dom';
 
@@ -56,7 +57,20 @@ export const Details: React.FunctionComponent = () => {
           value={descFleet}
           required={true}
         />
-        <SearchBar label={'Search your Commander'} kind="people" />
+        <SearchBar<SwapiPeople>
+          label={'Search your Commander'}
+          kind="people"
+          name="commander"
+          initialValue={fleet?.commander?.name || ''}
+          matchingCheck={(v1: SwapiPeople, choosen: string) =>
+            v1.name === choosen
+          }
+          set={(value: SwapiPeople) => {
+            updateFleet({
+              commander: value,
+            });
+          }}
+        />
 
         {fleet.commander && (
           //Todo: x icon on card do clear context
@@ -76,7 +90,6 @@ export const Details: React.FunctionComponent = () => {
               description: descFleet,
             });
           }}
-          type="submit"
         >
           Next
         </Button>
