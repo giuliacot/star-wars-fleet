@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import style from './Details.module.css';
 import { Input } from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
+import { Error } from '../../components/Error/Error';
 
 import { useFleetContext, FleetData } from '../fleetContext';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
@@ -20,6 +21,7 @@ export const Details: React.FunctionComponent = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (fleet.name && fleet.description && fleet.commander) {
       history.push('/starships');
     } else {
@@ -36,64 +38,61 @@ export const Details: React.FunctionComponent = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <div>
-        <Input
-          label="Name"
-          name="name"
-          type="text"
-          onChange={(e: React.FormEvent<HTMLInputElement>) => {
-            setNameFleet(e.currentTarget.value);
-          }}
-          required={true}
-          value={nameFleet}
-        />
-        <Input
-          label="Description"
-          name="description"
-          type="text"
-          onChange={(e: React.FormEvent<HTMLInputElement>) => {
-            setdescFleet(e.currentTarget.value);
-          }}
-          value={descFleet}
-          required={true}
-        />
-        <SearchBar<SwapiPeople>
-          label={'Search your Commander'}
-          kind="people"
-          name="commander"
-          initialValue={fleet?.commander?.name || ''}
-          matchingCheck={(v1: SwapiPeople, choosen: string) =>
-            v1.name === choosen
-          }
-          set={(value: SwapiPeople) => {
-            updateFleet({
-              commander: value,
-            });
-          }}
-        />
+      <Input
+        label="Name"
+        name="name"
+        type="text"
+        onChange={(e: React.FormEvent<HTMLInputElement>) => {
+          setNameFleet(e.currentTarget.value);
+        }}
+        required={true}
+        value={nameFleet}
+      />
+      <Input
+        label="Description"
+        name="description"
+        type="text"
+        onChange={(e: React.FormEvent<HTMLInputElement>) => {
+          setdescFleet(e.currentTarget.value);
+        }}
+        value={descFleet}
+        required={true}
+      />
+      <SearchBar<SwapiPeople>
+        label={'Search your Commander'}
+        kind="people"
+        name="commander"
+        initialValue={fleet?.commander?.name || ''}
+        matchingCheck={(v1: SwapiPeople, choosen: string) =>
+          v1.name === choosen
+        }
+        set={(value: SwapiPeople) => {
+          updateFleet({
+            commander: value,
+          });
+        }}
+      />
 
-        {fleet.commander && (
-          //Todo: x icon on card do clear context
-          <div>
-            <p>Your commander:</p>
-            <People people={fleet.commander} />
-          </div>
-        )}
+      {fleet.commander && (
+        //Todo: x icon on card do clear context
+        <div>
+          <p>Your commander:</p>
+          <People people={fleet.commander} />
+        </div>
+      )}
 
-        {errors &&
-          errors.map((err) => <p className={style.error}>{`${err[1]}`}</p>)}
+      {errors && errors.map((err) => <Error key={err[1]}>{`${err[1]}`}</Error>)}
 
-        <Button
-          onClick={() => {
-            updateFleet({
-              name: nameFleet,
-              description: descFleet,
-            });
-          }}
-        >
-          Next
-        </Button>
-      </div>
+      <Button
+        onClick={() => {
+          updateFleet({
+            name: nameFleet,
+            description: descFleet,
+          });
+        }}
+      >
+        Next
+      </Button>
     </form>
   );
 };
