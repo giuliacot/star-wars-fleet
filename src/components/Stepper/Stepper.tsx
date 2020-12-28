@@ -9,6 +9,9 @@ export const Stepper: FunctionComponent = () => {
         className={style.step}
         to="/details"
         activeClassName={style.currentStep}
+        onClick={(e) => {
+          e.preventDefault();
+        }}
       >
         Fleet Details
       </NavLink>
@@ -16,6 +19,9 @@ export const Stepper: FunctionComponent = () => {
         className={style.step}
         to="/starships"
         activeClassName={style.currentStep}
+        onClick={(e) => {
+          e.preventDefault();
+        }}
       >
         Fleet Starships
       </NavLink>
@@ -23,6 +29,9 @@ export const Stepper: FunctionComponent = () => {
         className={style.step}
         to="/generals"
         activeClassName={style.currentStep}
+        onClick={(e) => {
+          e.preventDefault();
+        }}
       >
         Fleet Generals
       </NavLink>

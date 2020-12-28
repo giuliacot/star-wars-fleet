@@ -1,0 +1,5 @@
+.msg {
+  color: var(--hovercolor);
+  font-family: 'Courier New';
+  padding: 1rem;
+}

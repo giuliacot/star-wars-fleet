@@ -5,6 +5,8 @@ import { People as SwapiPeople } from '../../types/swapi';
 import { Button } from '../../components/Button/Button';
 import { useHistory } from 'react-router-dom';
 
+import { Error } from '../../components/Error/Error';
+
 const GeneralItem: FunctionComponent<{
   starship: StarshipsEnrich;
   checkGeneral: (generalName: string) => boolean;
@@ -27,18 +29,19 @@ const GeneralItem: FunctionComponent<{
         set={(value: SwapiPeople) => {
           if (checkGeneral(value.name)) {
             // TODO add info of which ship is matched already
-            // TODo style error input
             setErrors([[starship.name, 'This general is already taken 🥺']]);
           } else {
             addGeneral({ ...starship, general: value.name });
-            setErrors(errors?.filter((e) => e[0] !== starship.name));
+            setErrors(
+              errors?.filter((e) => e[0] !== starship.name || 'generals'),
+            );
           }
         }}
       />{' '}
       {errors &&
         errors.map((err) => {
           if (err[0] === starship.name) {
-            return <p>{`${err[1]}`}</p>;
+            return <Error>{`${err[1]}`}</Error>;
           }
         })}
     </div>
@@ -48,6 +51,7 @@ const GeneralItem: FunctionComponent<{
 export const Generals: FunctionComponent = () => {
   const { fleet } = useFleetContext();
   const [errors, setErrors] = useState<string[][]>([]); //Tuple of errors
+  const [fakeLoading, setFakeLoading] = useState(false);
   const history = useHistory();
 
   const checkGeneralAlreadyPresent = (generalName: string) => {
@@ -71,8 +75,19 @@ export const Generals: FunctionComponent = () => {
           "It's seems your are not choose a general for every starship 🥺",
         ],
       ]);
+    } else {
+      setFakeLoading(true);
+      setTimeout(() => {
+        history.push('/congrats');
+        setFakeLoading(false);
+      }, 1000);
     }
   };
+
+  if (fakeLoading)
+    return (
+      <h1>We are submitting your fleet to the Star Wars headquarters...</h1>
+    );
   return (
     <form onSubmit={onSubmit}>
       <h3>Choose a general for each starships!</h3>
@@ -88,7 +103,7 @@ export const Generals: FunctionComponent = () => {
       {errors &&
         errors.map((e) => {
           if (e[0] === 'generals') {
-            return <p>{e[1]}</p>;
+            return <Error>{e[1]}</Error>;
           }
         })}
       <Button

@@ -4,10 +4,16 @@ import { Helmet } from 'react-helmet';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import React from 'react';
 import { FleetData } from './Steps/fleetContext';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import {
+  Switch,
+  Route,
+  BrowserRouter as Router,
+  Redirect,
+} from 'react-router-dom';
 import { Stepper } from './components/Stepper/Stepper';
 import { Starships } from './Steps/Starships/Starships';
 import { Generals } from './Steps/Generals/Generals';
+import { Congrats } from './Steps/Congrats/Congrats';
 
 function App() {
   const queryClient = new QueryClient();
@@ -29,9 +35,13 @@ function App() {
           <Router>
             <Stepper />
             <Switch>
-              <Route path="/details" component={() => <Details />} />
-              <Route path="/starships" component={() => <Starships />} />
-              <Route path="/generals" component={() => <Generals />} />
+              <Route exact path="/">
+                <Redirect to="/details" />
+              </Route>
+              <Route exact path="/details" component={() => <Details />} />
+              <Route exact path="/starships" component={() => <Starships />} />
+              <Route exact path="/generals" component={() => <Generals />} />
+              <Route exact path="/congrats" component={() => <Congrats />} />
             </Switch>
           </Router>
         </QueryClientProvider>
